@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis de Candidatos — Reporte Ejecutivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --navy-mid: #1a2d42;
+    --navy-light: #243b55;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --teal: #2ab4a0;
+    --teal-light: #3dd6c0;
+    --red: #e05555;
+    --text-primary: #f0f4f8;
+    --text-secondary: #a0b4c8;
+    --text-muted: #6b8299;
+    --border: rgba(201,168,76,0.18);
+    --card-bg: rgba(26,45,66,0.7);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--navy);
+    background-image:
+      radial-gradient(ellipse at 10% 0%, rgba(201,168,76,0.07) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 100%, rgba(42,180,160,0.07) 0%, transparent 50%);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-primary);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    padding: 48px 60px 36px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    position: relative;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 60px;
+    width: 80px; height: 3px;
+    background: var(--gold);
+  }
+  .header-left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    line-height: 1.1;
+  }
+  .header-left h1 span { color: var(--gold); }
+  .header-left p {
+    margin-top: 6px;
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .header-right {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+  .stat-pill {
+    text-align: center;
+  }
+  .stat-pill .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+  }
+  .stat-pill .lbl {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 0;
+    padding: 0 60px;
+    margin-top: 28px;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+  }
+  .tab {
+    padding: 12px 24px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .tab.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+  .tab:hover:not(.active) { color: var(--text-secondary); }
+
+  /* MAIN CONTENT */
+  .main { padding: 40px 60px 60px; }
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* BENCHMARK BAR */
+  .benchmark-banner {
+    background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(42,180,160,0.08));
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 28px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .benchmark-banner h4 {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .bm-items { display: flex; gap: 32px; flex-wrap: wrap; }
+  .bm-item { font-size: 0.82rem; color: var(--text-secondary); }
+  .bm-item strong { color: var(--text-primary); }
+
+  /* POSITION SECTION */
+  .position-section { margin-bottom: 48px; }
+  .position-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .position-title::before {
+    content: '';
+    display: inline-block;
+    width: 4px; height: 22px;
+    background: var(--gold);
+    border-radius: 2px;
+  }
+  .position-count {
+    font-size: 0.75rem;
+    background: rgba(201,168,76,0.15);
+    color: var(--gold);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+  }
+  .position-subtitle {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    padding-left: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+
+  /* CANDIDATE GRID */
+  .candidates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+  }
+
+  /* CANDIDATE CARD */
+  .candidate-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    backdrop-filter: blur(8px);
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+  }
+  .candidate-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+  .candidate-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .card-recommended::before { background: linear-gradient(90deg, var(--gold), var(--teal)); }
+  .card-good::before { background: var(--teal); }
+  .card-neutral::before { background: var(--text-muted); }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .avatar-gold { background: rgba(201,168,76,0.2); color: var(--gold); border: 1.5px solid var(--gold); }
+  .avatar-teal { background: rgba(42,180,160,0.2); color: var(--teal); border: 1.5px solid var(--teal); }
+  .avatar-muted { background: rgba(107,130,153,0.2); color: var(--text-muted); border: 1.5px solid var(--text-muted); }
+
+  .card-name-block { flex: 1; padding-left: 12px; }
+  .card-name {
+    font-weight: 600;
+    font-size: 0.97rem;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+  .card-age {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .badge {
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  .badge-top { background: rgba(201,168,76,0.18); color: var(--gold); border: 1px solid rgba(201,168,76,0.4); }
+  .badge-good { background: rgba(42,180,160,0.18); color: var(--teal); border: 1px solid rgba(42,180,160,0.4); }
+  .badge-neutral { background: rgba(107,130,153,0.15); color: var(--text-muted); border: 1px solid rgba(107,130,153,0.3); }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .info-item { }
+  .info-label {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 2px;
+  }
+  .info-value {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  .info-value.highlight { color: var(--text-primary); }
+
+  /* SKILL BARS */
+  .skills-section { margin-bottom: 14px; }
+  .skills-label {
+    font-size: 0.67rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .skill-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+  .skill-name {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    width: 70px;
+    flex-shrink: 0;
+  }
+  .skill-bar-bg {
+    flex: 1;
+    height: 5px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .skill-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.6s ease;
+  }
+  .fill-exp { background: var(--gold); }
+  .fill-int { background: var(--teal); }
+  .fill-bas { background: var(--text-muted); }
+  .fill-none { background: rgba(107,130,153,0.2); }
+  .skill-val {
+    font-size: 0.67rem;
+    color: var(--text-muted);
+    width: 56px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* ENGLISH */
+  .lang-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .lang-label {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-right: 4px;
+  }
+  .lang-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.68rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid;
+  }
+  .lang-exc { border-color: rgba(42,180,160,0.5); color: var(--teal); background: rgba(42,180,160,0.08); }
+  .lang-bien { border-color: rgba(201,168,76,0.5); color: var(--gold-light); background: rgba(201,168,76,0.08); }
+  .lang-reg { border-color: rgba(107,130,153,0.4); color: var(--text-muted); background: rgba(107,130,153,0.06); }
+
+  /* RECOMMENDATION BOX */
+  .rec-box {
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-top: 6px;
+  }
+  .rec-box strong { color: var(--gold-light); }
+
+  /* SCORE RING */
+  .score-ring {
+    position: relative;
+    width: 46px; height: 46px;
+    flex-shrink: 0;
+  }
+  .score-ring svg { transform: rotate(-90deg); }
+  .score-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  /* OVERVIEW TABLE */
+  .overview-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    margin-top: 8px;
+  }
+  .overview-table th {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 500;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    background: rgba(13,27,42,0.5);
+    position: sticky;
+    top: 0;
+  }
+  .overview-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text-secondary);
+    vertical-align: middle;
+  }
+  .overview-table tr:hover td { background: rgba(255,255,255,0.03); }
+  .overview-table td:first-child { color: var(--text-primary); font-weight: 500; }
+  .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+  .dot-row { display: flex; gap: 3px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); }
+  .dot.filled { background: var(--gold); }
+  .dot.teal { background: var(--teal); }
+
+  /* RECOMMENDATIONS PAGE */
+  .rec-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 24px;
+  }
+  .rec-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
+  }
+  .rec-card.top-pick {
+    border-color: rgba(201,168,76,0.4);
+    background: linear-gradient(135deg, rgba(201,168,76,0.07), rgba(26,45,66,0.7));
+  }
+  .rec-rank {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: rgba(201,168,76,0.15);
+    position: absolute;
+    top: 12px; right: 20px;
+    line-height: 1;
+  }
+  .rec-pos-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--teal);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .rec-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+  .rec-exp { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 16px; }
+  .rec-pros { list-style: none; margin-bottom: 12px; }
+  .rec-pros li {
+    font-size: 0.81rem;
+    color: var(--text-secondary);
+    padding: 4px 0;
+    display: flex;
+    gap: 8px;
+    line-height: 1.4;
+  }
+  .rec-pros li::before { content: '✦'; color: var(--gold); font-size: 0.55rem; margin-top: 4px; flex-shrink: 0; }
+  .rec-cons { list-style: none; }
+  .rec-cons li {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    padding: 3px 0;
+    display: flex;
+    gap: 8px;
+    line-height: 1.4;
+  }
+  .rec-cons li::before { content: '·'; color: var(--text-muted); }
+  .rec-section-label {
+    font-size: 0.67rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  /* DIVIDER */
+  hr.section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 36px 0;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 24px 60px;
+    border-top: 1px solid var(--border);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .tag-working { background: rgba(42,180,160,0.15); color: var(--teal); border: 1px solid rgba(42,180,160,0.3); padding: 2px 8px; border-radius: 10px; font-size: 0.67rem; }
+  .tag-notworking { background: rgba(224,85,85,0.1); color: var(--red); border: 1px solid rgba(224,85,85,0.25); padding: 2px 8px; border-radius: 10px; font-size: 0.67rem; }
+
+  @media (max-width: 768px) {
+    header, .tabs, .main, footer { padding-left: 20px; padding-right: 20px; }
+    header { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .candidates-grid, .rec-grid { grid-template-columns: 1fr; }
+    .info-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>Análisis de <span>Candidatos</span></h1>
+    <p>Reporte Ejecutivo de Reclutamiento · Confeccionado por Talent BI</p>
+  </div>
+  <div class="header-right">
+    <div class="stat-pill"><span class="num">19</span><span class="lbl">Candidatos</span></div>
+    <div class="stat-pill"><span class="num">7</span><span class="lbl">Posiciones</span></div>
+    <div class="stat-pill"><span class="num">6</span><span class="lbl">Top Picks</span></div>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('overview')">Resumen General</button>
+  <button class="tab" onclick="switchTab('pm')">Project Manager</button>
+  <button class="tab" onclick="switchTab('data')">Data Engineer / Analyst</button>
+  <button class="tab" onclick="switchTab('ti')">Arquitecto TI / Ingeniero</button>
+  <button class="tab" onclick="switchTab('otros')">Otras Posiciones</button>
+  <button class="tab" onclick="switchTab('recomendaciones')">⭐ Recomendaciones</button>
+</div>
+
+<div class="main">
+
+<!-- ===================== OVERVIEW ===================== -->
+<div id="view-overview" class="view active">
+  <div class="benchmark-banner">
+    <h4>Benchmark Salarial por Posición</h4>
+    <div class="bm-items">
+      <div class="bm-item"><strong>Project Manager:</strong> RD$ 120,000 – 300,000</div>
+      <div class="bm-item"><strong>Data Engineer:</strong> RD$ 140,000 – 200,000</div>
+      <div class="bm-item"><strong>Data Analyst / BI:</strong> RD$ 70,000 – 100,000</div>
+      <div class="bm-item"><strong>Arquitecto TI:</strong> RD$ 65,000 – 140,000</div>
+      <div class="bm-item"><strong>Ing. Pruebas / QA:</strong> RD$ 85,000 – 100,000</div>
+      <div class="bm-item"><strong>Data Science:</strong> RD$ 100,000 – 120,000</div>
+      <div class="bm-item"><strong>Especialista Seguridad:</strong> RD$ 120,000 – 140,000</div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="overview-table">
+      <thead>
+        <tr>
+          <th>Candidato</th>
+          <th>Posición</th>
+          <th>Exp.</th>
+          <th>Educación</th>
+          <th>Inglés</th>
+          <th>Labora</th>
+          <th>Estatus</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Daniel Andres Cabrera Lopez</td>
+          <td>Ingeniero de Datos</td>
+          <td>8 años</td>
+          <td>Maestría IA</td>
+          <td><span class="lang-dot lang-bien">Bien</span></td>
+          <td><span class="tag-working">Sí</span></td>
+          <td><span class="badge badge-top">★ Top Pick</span></td>
+        </tr>
+        <tr>
+          <td>Roberto Armando Castillo Sanabria</td>
+          <td>Project Manager</td>
+          <td>N/A</td>
+          <td>Maestría</td>
+          <td><span class="lang-dot lang-exc">Excelente</span></td>
+          <td>—</td>
+          <td><span class="badge badge-top">★ Top Pick</span></td>
+        </tr>
+        <tr>
+          <td>Wilfredo Mateo Acosta</td>
+          <td>Project Manager</td>
+          <td>12 años</td>
+          <td>Maestría Ciberseg.</td>
+          <td><span class="lang-dot lang-reg">Regular</span></td>
+          <td><span class="tag-working">Sí</span></td>
+          <td><span class="badge badge-top">★ Top Pick</span></td>
+        </tr>
+        <tr>
+          <td>Yanilka Garcia Amparo</td>
+          <td>Project Manager / Líder</td>
+          <td>29 años</td>
+          <td>Maestría Gerencia</td>
+          <td><span class="lang-dot lang-bien">Bien</span></td>
+          <td><span class="tag-notworking">No</span></td>
+          <td><span class="badge badge-good">Recomendado</span></td>
+        </tr>
+        <tr>
+          <td>Yelsin Joel Terrero Amparo</td>
+          <td>Data Analyst</td>
+          <td>5 años</td>
+          <td>Maestría Ciencia Datos</td>
+          <td><span class="lang-dot lang-reg">Regular</span></td>
+          <td><span class="tag-working">Sí</span></td>
+          <td><span class="badge badge-top">★ Top Pick</span></td>
+        </tr>
+        <tr>
+          <td>Jose Maria Valera Rodriguez</td>
+          <td>Ingeniero de Datos</td>
+          <td>5 años</td>
+          <td>Maestría Ciberseg.</td>
+          <td><span class="lang-dot lang-reg">Regular</span></td>
+          <td><span class="tag-working">Sí</span></td>
+          <td><span class="badge badge-good">Recomendado</span></td>
+        </tr>
+        <tr>
+          <td>Lancelote Santos Rodriguez</td>
+          <td>QA / Ing. Pruebas</td>
+          <td>Sin info</td>
+          <td>Tec. Superior + Dipl.</td>
+          <td><span class="lang-dot lang-reg">Regular</span></td>
+          <td><span class="tag-notworking">No</span></td>
+          <td><span class="badge badge-good">Recomendado</span></td>
+        </tr>
+        <tr>
+          <td>Zunilda Guillén Rueda</td>
+          <td>Arquitecto TI</td>
+          <td>N/A</td>
+          <td>Maestría</td>
+          <td><span class="lang-dot lang-reg">Regular</span></td>
+          <td>—</td>
+          <td><span class="badge badge-good">Recomendado</span></td>
+        </tr>
+        <tr>
+          <td>Ran Shemer Ramirez</td>
+          <td>Arquitecto TI / Data Analyst</td>
+          <td>12 años</td>
+          <td>Grado (Ing. Sistemas)</td>
+          <td><span class="lang-dot lang-exc">Excelente</span></td>
+          <td><span class="tag-notworking">No</span></td>
+          <td><span class="badge badge-neutral">Considerar</span></td>
+        </tr>
+        <tr>
+          <td>Orlando Rodriguez Ramirez</td>
+          <td>Project Manager</td>
+          <td>N/A</td>
+          <td>Maestría</td>
+          <td><span class="lang-dot lang-exc">Excelente</span></td>
+          <td>—</td>
+          <td><span class="badge badge-good">Recomendado</span></td>
+        </tr>
+        <tr>
+          <td>Tomas De Jesus Mayol Valdez</td>
+          <td>Data Engineer</td>
+          <td>N/A</td>
+          <td>Maestría</td>
+          <td><span class="lang-dot lang-reg">Regular</span></td>
+          <td>—</td>
+          <td><span class="badge badge-neutral">Considerar</span></td>
+        </tr>
+        <tr>
+          <td>Raudy Ramon García Rodriguez</td>
+          <td>Data Analyst</td>
+          <td>N/A</td>
+          <td>Grado</td>
+          <td><span class="lang-dot lang-bien">Bien</span></td>
+          <td>—</td>
+          <td><span class="badge badge-neutral">Considerar</span></td>
+        </tr>
+        <tr>
+          <td>Mirianny De La Cruz Ventura</td>
+          <td>Data Analyst</td>
+          <td>N/A</td>
+          <td>Grado</td>
+          <td><span class="lang-dot lang-bien">Bien</span></td>
+          <td>—</td>
+          <td><span class="badge badge-neutral">Considerar</span></td>
+        </tr>
+        <tr>
+          <td>Edwin Peñalo</td>
+          <td>Data Engineer</td>
+          <td>N/A</td>
+          <td>Grado</td>
+          <td><span class="lang-dot lang-bien">Bien</span></td>
+          <td>—</td>
+          <td><span class="badge badge-neutral">Considerar</span></td>
+        </tr>
+        <tr>
+          <td>Johanca María Santos González</td>
+          <td>Analista BI</td>
+          <td>N/A</td>
+          <td>Tec. Superior</td>
+          <td><span class="lang-dot lang-reg">Regular</span></td>
+          <td>—</td>
+          <td><span class="badge badge-neutral">Considerar</span></td>
+        </tr>
+        <tr>
+          <td>Ileana Mercedes Guzman</td>
+          <td>IT Project Manager</td>
+          <td>N/A</td>
+          <td>Maestría</td>
+          <td><span class="lang-dot lang-bien">Bien</span></td>
+          <td>—</td>
+          <td><span class="badge badge-neutral">Considerar</span></td>
+        </tr>
+        <tr>
+          <td>Fausto Joel Arvelo Diaz</td>
+          <td>Gestión Proyectos / Scrum</td>
+          <td>N/A</td>
+          <td>Grado</td>
+          <td><span class="lang-dot lang-reg">Regular</span></td>
+          <td>—</td>
+          <td><span class="badge badge-neutral">Considerar</span></td>
+        </tr>
+        <tr>
+          <td>Emmanuel Henriquez Rosario</td>
+          <td>Especialista Seguridad</td>
+          <td>N/A</td>
+          <td>Grado</td>
+          <td><span class="lang-dot lang-reg">Regular</span></td>
+          <td>—</td>
+          <td><span class="badge badge-neutral">Considerar</span></td>
+        </tr>
+        <tr>
+          <td>Elin Eve</td>
+          <td>Data Science</td>
+          <td>2 años</td>
+          <td>Téc. Sup. + Maestría</td>
+          <td><span class="lang-dot lang-exc">Excelente</span></td>
+          <td><span class="tag-working">Sí</span></td>
+          <td><span class="badge badge-neutral">Considerar</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===================== PROJECT MANAGER ===================== -->
+<div id="view-pm" class="view">
+  <div class="benchmark-banner">
+    <h4>Benchmark — Project Manager</h4>
+    <div class="bm-items">
+      <div class="bm-item"><strong>Rango Salarial:</strong> RD$ 120,000 – 300,000</div>
+      <div class="bm-item"><strong>Exp. mínima esperada:</strong> 5+ años</div>
+      <div class="bm-item"><strong>Herramientas clave:</strong> SQL, Excel Avanzado, Power BI, Metodologías ágiles</div>
+      <div class="bm-item"><strong>Ingles:</strong> Deseable Bien o superior</div>
+    </div>
+  </div>
+
+  <div class="candidates-grid">
+
+    <!-- Wilfredo -->
+    <div class="candidate-card card-recommended">
+      <div class="card-header">
+        <div class="avatar avatar-gold">WM</div>
+        <div class="card-name-block">
+          <div class="card-name">Wilfredo Mateo Acosta</div>
+          <div class="card-age">34 años · Santo Domingo Norte</div>
+        </div>
+        <span class="badge badge-top">★ Top Pick</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Experiencia</div><div class="info-value highlight">12 años</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Maestría Ciberseg. + Digital Project</div></div>
+        <div class="info-item"><div class="info-label">Labora actualmente</div><div class="info-value"><span class="tag-working">Sí</span></div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">+10 días (preaviso)</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-reg">Habla: Regular</span>
+        <span class="lang-dot lang-reg">Lee: Regular</span>
+        <span class="lang-dot lang-bien">Escribe: Bien</span>
+      </div>
+      <div class="skills-section">
+        <div class="skills-label">Dominio Técnico</div>
+        <div class="skill-row"><span class="skill-name">Python</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-int" style="width:50%"></div></div><span class="skill-val">Intermedio</span></div>
+        <div class="skill-row"><span class="skill-name">Power BI</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-exp" style="width:75%"></div></div><span class="skill-val">Avanzado</span></div>
+        <div class="skill-row"><span class="skill-name">Excel Av.</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-exp" style="width:75%"></div></div><span class="skill-val">Avanzado</span></div>
+        <div class="skill-row"><span class="skill-name">SQL</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-int" style="width:50%"></div></div><span class="skill-val">Intermedio</span></div>
+        <div class="skill-row"><span class="skill-name">R</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-exp" style="width:75%"></div></div><span class="skill-val">Avanzado</span></div>
+      </div>
+      <div class="rec-box"><strong>Fortalezas:</strong> Amplia experiencia (12 años), dominio Power BI y Excel, gestión de KPIs, manejo de equipos y reportes ejecutivos. Ha liderado proyectos de análisis financiero y automatización. Excelente capacidad bajo presión.</div>
+    </div>
+
+    <!-- Roberto Castillo -->
+    <div class="candidate-card card-recommended">
+      <div class="card-header">
+        <div class="avatar avatar-gold">RC</div>
+        <div class="card-name-block">
+          <div class="card-name">Roberto Armando Castillo Sanabria</div>
+          <div class="card-age">34 años · Los Cacicazgos</div>
+        </div>
+        <span class="badge badge-top">★ Top Pick</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Experiencia</div><div class="info-value highlight">No especificada</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Maestría</div></div>
+        <div class="info-item"><div class="info-label">Vehículo</div><div class="info-value">Hyundai Grand Santa Fe</div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">1–2 semanas</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-exc">Habla: Excelente</span>
+        <span class="lang-dot lang-exc">Lee: Excelente</span>
+        <span class="lang-dot lang-exc">Escribe: Excelente</span>
+      </div>
+      <div class="rec-box"><strong>Fortalezas:</strong> Inglés excelente en todas las dimensiones (diferenciador clave). Maestría, movilidad propia, disponibilidad en 1–2 semanas. Nacido en Argentina — posible experiencia internacional. Requiere validación de años de experiencia en entrevista.</div>
+    </div>
+
+    <!-- Yanilka -->
+    <div class="candidate-card card-good">
+      <div class="card-header">
+        <div class="avatar avatar-teal">YG</div>
+        <div class="card-name-block">
+          <div class="card-name">Yanilka Eudelina Garcia Amparo</div>
+          <div class="card-age">52 años · Los Restauradores</div>
+        </div>
+        <span class="badge badge-good">Recomendado</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Experiencia</div><div class="info-value highlight">29 años</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Maestría Gerencia · Scrum Master</div></div>
+        <div class="info-item"><div class="info-label">Labora actualmente</div><div class="info-value"><span class="tag-notworking">No</span></div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">Inmediata</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-bien">Habla: Bien</span>
+        <span class="lang-dot lang-reg">Lee: Regular</span>
+        <span class="lang-dot lang-reg">Escribe: Regular</span>
+      </div>
+      <div class="skills-section">
+        <div class="skills-label">Dominio Técnico</div>
+        <div class="skill-row"><span class="skill-name">Python</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-bas" style="width:25%"></div></div><span class="skill-val">Básico</span></div>
+        <div class="skill-row"><span class="skill-name">Power BI</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-bas" style="width:25%"></div></div><span class="skill-val">Básico</span></div>
+        <div class="skill-row"><span class="skill-name">Excel Av.</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-exp" style="width:75%"></div></div><span class="skill-val">Avanzado</span></div>
+        <div class="skill-row"><span class="skill-name">SQL</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-exp" style="width:75%"></div></div><span class="skill-val">Avanzado</span></div>
+        <div class="skill-row"><span class="skill-name">R</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-bas" style="width:25%"></div></div><span class="skill-val">Básico</span></div>
+      </div>
+      <div class="rec-box"><strong>Fortalezas:</strong> Experiencia masiva de 29 años, Scrum Master certificada, Ing. de Sistemas. Ha liderado proyectos de Datawarehouse, enmascaramiento de datos y BI. Disponibilidad inmediata. Inglés escrito requiere refuerzo.</div>
+    </div>
+
+    <!-- Orlando -->
+    <div class="candidate-card card-good">
+      <div class="card-header">
+        <div class="avatar avatar-teal">OR</div>
+        <div class="card-name-block">
+          <div class="card-name">Orlando Amaurys Rodriguez Ramirez</div>
+          <div class="card-age">33 años · San Cristóbal</div>
+        </div>
+        <span class="badge badge-good">Recomendado</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Experiencia</div><div class="info-value highlight">Por confirmar</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Maestría</div></div>
+        <div class="info-item"><div class="info-label">Vehículo</div><div class="info-value">Hyundai Tucson</div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">1 semana</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-exc">Habla: Excelente</span>
+        <span class="lang-dot lang-exc">Lee: Excelente</span>
+        <span class="lang-dot lang-exc">Escribe: Excelente</span>
+      </div>
+      <div class="rec-box"><strong>Fortalezas:</strong> Inglés excelente, Maestría, movilidad propia, disponibilidad en 1 semana. Perfil ágil para incorporación rápida. Requiere validación de años de experiencia PM en entrevista.</div>
+    </div>
+
+    <!-- Ileana -->
+    <div class="candidate-card card-neutral">
+      <div class="card-header">
+        <div class="avatar avatar-muted">IG</div>
+        <div class="card-name-block">
+          <div class="card-name">Ileana Mercedes Guzman</div>
+          <div class="card-age">24 años · Santo Domingo</div>
+        </div>
+        <span class="badge badge-neutral">Considerar</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Experiencia</div><div class="info-value">Por confirmar</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Maestría</div></div>
+        <div class="info-item"><div class="info-label">Exp. banco</div><div class="info-value">No</div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">Lunes a Viernes</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-bien">Habla: Bien</span>
+        <span class="lang-dot lang-exc">Lee: Excelente</span>
+        <span class="lang-dot lang-bien">Escribe: Bien</span>
+      </div>
+      <div class="rec-box"><strong>Nota:</strong> Candidata joven (24 años) con Maestría. Edad vs. credencial académica puede indicar experiencia limitada real. Inglés sólido. Requiere validar proyectos previos y años de experiencia en entrevista.</div>
+    </div>
+
+    <!-- Fausto -->
+    <div class="candidate-card card-neutral">
+      <div class="card-header">
+        <div class="avatar avatar-muted">FA</div>
+        <div class="card-name-block">
+          <div class="card-name">Fausto Joel Arvelo Diaz</div>
+          <div class="card-age">32 años · Mejoramiento Social</div>
+        </div>
+        <span class="badge badge-neutral">Considerar</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Posición aplicada</div><div class="info-value">Gestión Proyectos / Scrum</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Grado</div></div>
+        <div class="info-item"><div class="info-label">Vehículo</div><div class="info-value">Honda CRV</div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">15 días</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-reg">Habla: Regular</span>
+        <span class="lang-dot lang-reg">Lee: Regular</span>
+        <span class="lang-dot lang-reg">Escribe: Regular</span>
+      </div>
+      <div class="rec-box"><strong>Nota:</strong> Solo tiene Grado (no Maestría). Inglés regular en todos los niveles. Puede ser apropiado para roles junior de PM/Scrum pero no senior. Tiene movilidad propia — positivo. Requiere confirmar proyectos liderados.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== DATA ===================== -->
+<div id="view-data" class="view">
+  <div class="benchmark-banner">
+    <h4>Benchmark — Data Engineer / Data Analyst / BI</h4>
+    <div class="bm-items">
+      <div class="bm-item"><strong>Data Engineer:</strong> RD$ 140,000 – 200,000</div>
+      <div class="bm-item"><strong>Data Analyst / BI:</strong> RD$ 70,000 – 100,000</div>
+      <div class="bm-item"><strong>Herramientas clave:</strong> Python, SQL, Power BI/Tableau, Excel Avanzado</div>
+    </div>
+  </div>
+
+  <div class="position-title">Ingenieros de Datos <span class="position-count">3 candidatos</span></div>
+  <div class="position-subtitle">Benchmark: RD$ 140,000 – 200,000</div>
+  <div class="candidates-grid">
+
+    <!-- Daniel Cabrera -->
+    <div class="candidate-card card-recommended">
+      <div class="card-header">
+        <div class="avatar avatar-gold">DC</div>
+        <div class="card-name-block">
+          <div class="card-name">Daniel Andres Cabrera Lopez</div>
+          <div class="card-age">29 años · Nuevo Amanecer</div>
+        </div>
+        <span class="badge badge-top">★ Top Pick</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Experiencia</div><div class="info-value highlight">8 años</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Maestría en IA</div></div>
+        <div class="info-item"><div class="info-label">Labora actualmente</div><div class="info-value"><span class="tag-working">Sí</span></div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">+10 días</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-bien">Habla: Bien</span>
+        <span class="lang-dot lang-bien">Lee: Bien</span>
+        <span class="lang-dot lang-bien">Escribe: Bien</span>
+      </div>
+      <div class="skills-section">
+        <div class="skills-label">Dominio Técnico</div>
+        <div class="skill-row"><span class="skill-name">Python</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-exp" style="width:75%"></div></div><span class="skill-val">Avanzado</span></div>
+        <div class="skill-row"><span class="skill-name">Power BI</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-exp" style="width:100%"></div></div><span class="skill-val">Experto</span></div>
+        <div class="skill-row"><span class="skill-name">Excel Av.</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-exp" style="width:100%"></div></div><span class="skill-val">Experto</span></div>
+        <div class="skill-row"><span class="skill-name">SQL</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-exp" style="width:100%"></div></div><span class="skill-val">Experto</span></div>
+        <div class="skill-row"><span class="skill-name">R</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-exp" style="width:75%"></div></div><span class="skill-val">Avanzado</span></div>
+      </div>
+      <div class="rec-box"><strong>Perfil excepcional:</strong> 8 años de exp., Maestría en IA, Experto en SQL/Excel/Power BI, Avanzado en Python y R. Ha diseñado tableros estadísticos, KPIs y proyecciones de revenue. +5 años con herramientas tecnológicas. El candidato más completo del grupo.</div>
+    </div>
+
+    <!-- Jose Valera -->
+    <div class="candidate-card card-good">
+      <div class="card-header">
+        <div class="avatar avatar-teal">JV</div>
+        <div class="card-name-block">
+          <div class="card-name">Jose Maria Valera Rodriguez</div>
+          <div class="card-age">31 años · Ensanche Espaillat</div>
+        </div>
+        <span class="badge badge-good">Recomendado</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Experiencia</div><div class="info-value highlight">5 años</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Maestría Ciberseg.</div></div>
+        <div class="info-item"><div class="info-label">Labora actualmente</div><div class="info-value"><span class="tag-working">Sí</span></div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">15 días</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-reg">Habla: Regular</span>
+        <span class="lang-dot lang-reg">Lee: Regular</span>
+        <span class="lang-dot lang-reg">Escribe: Regular</span>
+      </div>
+      <div class="skills-section">
+        <div class="skills-label">Dominio Técnico</div>
+        <div class="skill-row"><span class="skill-name">Python</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-bas" style="width:25%"></div></div><span class="skill-val">Básico</span></div>
+        <div class="skill-row"><span class="skill-name">Power BI</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-int" style="width:50%"></div></div><span class="skill-val">Intermedio</span></div>
+        <div class="skill-row"><span class="skill-name">Excel Av.</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-int" style="width:50%"></div></div><span class="skill-val">Intermedio</span></div>
+        <div class="skill-row"><span class="skill-name">SQL</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-exp" style="width:100%"></div></div><span class="skill-val">Experto</span></div>
+        <div class="skill-row"><span class="skill-name">R</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-bas" style="width:25%"></div></div><span class="skill-val">Básico</span></div>
+      </div>
+      <div class="rec-box"><strong>Fortalezas:</strong> SQL Experto — ideal para data engineering. Experiencia con SSIS (SQL Server Integration Services). Maestría en Ciberseguridad aporta enfoque en seguridad de datos. Inglés y Python son áreas de mejora.</div>
+    </div>
+
+    <!-- Tomas Mayol -->
+    <div class="candidate-card card-neutral">
+      <div class="card-header">
+        <div class="avatar avatar-muted">TM</div>
+        <div class="card-name-block">
+          <div class="card-name">Tomas De Jesus Mayol Valdez</div>
+          <div class="card-age">32 años · Simón Bolívar</div>
+        </div>
+        <span class="badge badge-neutral">Considerar</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Experiencia</div><div class="info-value">Por confirmar</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Maestría</div></div>
+        <div class="info-item"><div class="info-label">Labora actualmente</div><div class="info-value"><span class="tag-notworking">No</span></div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">2 semanas</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-reg">Habla: Regular</span>
+        <span class="lang-dot lang-muted">—</span>
+      </div>
+      <div class="rec-box"><strong>Nota:</strong> Maestría y Ford Escape propio. Inglés muy limitado reportado (solo "Regular" en habla, sin datos de lectura/escritura). Disponible en 2 semanas. Requiere confirmar experiencia real y habilidades técnicas en entrevista.</div>
+    </div>
+
+    <!-- Edwin Peñalo -->
+    <div class="candidate-card card-neutral">
+      <div class="card-header">
+        <div class="avatar avatar-muted">EP</div>
+        <div class="card-name-block">
+          <div class="card-name">Edwin Peñalo</div>
+          <div class="card-age">25 años · Santo Domingo Norte</div>
+        </div>
+        <span class="badge badge-neutral">Considerar</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Experiencia</div><div class="info-value">Por confirmar</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Grado</div></div>
+        <div class="info-item"><div class="info-label">Exp. banco</div><div class="info-value">No</div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">5 sem. preaviso, vespertino</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-bien">Habla: Bien</span>
+        <span class="lang-dot lang-reg">Lee: Regular</span>
+        <span class="lang-dot lang-reg">Escribe: Regular</span>
+      </div>
+      <div class="rec-box"><strong>Nota:</strong> Solo Grado. Disponibilidad muy limitada (solo vespertino, 5 semanas de preaviso). Joven (25 años) — puede tener potencial pero con restricciones importantes de incorporación. Evaluar si encaja con el esquema horario del cliente.</div>
+    </div>
+
+  </div>
+
+  <hr class="section-divider">
+
+  <div class="position-title">Data Analyst / BI <span class="position-count">5 candidatos</span></div>
+  <div class="position-subtitle">Benchmark: RD$ 70,000 – 100,000</div>
+  <div class="candidates-grid">
+
+    <!-- Yelsin -->
+    <div class="candidate-card card-recommended">
+      <div class="card-header">
+        <div class="avatar avatar-gold">YT</div>
+        <div class="card-name-block">
+          <div class="card-name">Yelsin Joel Terrero Amparo</div>
+          <div class="card-age">30 años · Arroyo Hondo Viejo</div>
+        </div>
+        <span class="badge badge-top">★ Top Pick</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Experiencia</div><div class="info-value highlight">5 años</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Maestría Ciencia de Datos</div></div>
+        <div class="info-item"><div class="info-label">Labora actualmente</div><div class="info-value"><span class="tag-working">Sí</span></div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">+10 días</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-reg">Habla: Regular</span>
+        <span class="lang-dot lang-reg">Lee: Regular</span>
+        <span class="lang-dot lang-reg">Escribe: Regular</span>
+      </div>
+      <div class="skills-section">
+        <div class="skills-label">Dominio Técnico</div>
+        <div class="skill-row"><span class="skill-name">Python</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-bas" style="width:25%"></div></div><span class="skill-val">Básico</span></div>
+        <div class="skill-row"><span class="skill-name">Power BI</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-exp" style="width:100%"></div></div><span class="skill-val">Experto</span></div>
+        <div class="skill-row"><span class="skill-name">Excel Av.</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-exp" style="width:100%"></div></div><span class="skill-val">Experto</span></div>
+        <div class="skill-row"><span class="skill-name">SQL</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-exp" style="width:100%"></div></div><span class="skill-val">Experto</span></div>
+        <div class="skill-row"><span class="skill-name">R</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-bas" style="width:25%"></div></div><span class="skill-val">Básico</span></div>
+      </div>
+      <div class="rec-box"><strong>Perfil destacado:</strong> Maestría en Ciencia de Datos, 5 años exp., Experto en Power BI, Excel y SQL. Crea dashboards y reportería avanzada. Python y R son sus puntos débiles, pero el core de Data Analyst está cubierto con excelencia.</div>
+    </div>
+
+    <!-- Raudy García -->
+    <div class="candidate-card card-neutral">
+      <div class="card-header">
+        <div class="avatar avatar-muted">RG</div>
+        <div class="card-name-block">
+          <div class="card-name">Raudy Ramon García Rodriguez</div>
+          <div class="card-age">25 años · Bonao</div>
+        </div>
+        <span class="badge badge-neutral">Considerar</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Experiencia</div><div class="info-value">Por confirmar</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Grado</div></div>
+        <div class="info-item"><div class="info-label">Vehículo</div><div class="info-value">Toyota Camry</div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">10 días</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-bien">Habla: Bien</span>
+        <span class="lang-dot lang-exc">Lee: Excelente</span>
+        <span class="lang-dot lang-bien">Escribe: Bien</span>
+      </div>
+      <div class="rec-box"><strong>Nota:</strong> Buen nivel de inglés. Grado sin Maestría. Vive en Bonao — ubicación geográfica puede ser un factor. Requiere confirmar herramientas y experiencia en proyectos de datos en entrevista.</div>
+    </div>
+
+    <!-- Mirianny -->
+    <div class="candidate-card card-neutral">
+      <div class="card-header">
+        <div class="avatar avatar-muted">MD</div>
+        <div class="card-name-block">
+          <div class="card-name">Mirianny De La Cruz Ventura</div>
+          <div class="card-age">22 años · Los Maestros</div>
+        </div>
+        <span class="badge badge-neutral">Considerar</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Experiencia</div><div class="info-value">Junior / Por confirmar</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Grado</div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">Inmediata</div></div>
+        <div class="info-item"><div class="info-label">Exp. banco</div><div class="info-value">No</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-bien">Habla: Bien</span>
+        <span class="lang-dot lang-bien">Lee: Bien</span>
+        <span class="lang-dot lang-bien">Escribe: Bien</span>
+      </div>
+      <div class="rec-box"><strong>Nota:</strong> Candidata muy joven (22 años, nacida 2003). Inglés sólido y disponibilidad inmediata. Probablemente recién graduada — perfil junior. Apropiada si el puesto acepta nivel de entrada. Potencial de desarrollo.</div>
+    </div>
+
+    <!-- Johanca Santos -->
+    <div class="candidate-card card-neutral">
+      <div class="card-header">
+        <div class="avatar avatar-muted">JS</div>
+        <div class="card-name-block">
+          <div class="card-name">Johanca María Santos González</div>
+          <div class="card-age">25 años · Villas Naco</div>
+        </div>
+        <span class="badge badge-neutral">Considerar</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Posición</div><div class="info-value">Analista BI</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Tec. Superior</div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">Inmediata</div></div>
+        <div class="info-item"><div class="info-label">Exp. banco</div><div class="info-value">Sí</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-reg">Habla: Regular</span>
+        <span class="lang-dot lang-bien">Lee: Bien</span>
+        <span class="lang-dot lang-bien">Escribe: Bien</span>
+      </div>
+      <div class="rec-box"><strong>Nota:</strong> Tiene experiencia bancaria (diferenciador). Téc. Superior como nivel educativo máximo — puede ser limitante para roles senior. Disponibilidad inmediata y sector financiero es un plus. Buena para analista BI junior/mid.</div>
+    </div>
+
+    <!-- Elin Eve -->
+    <div class="candidate-card card-neutral">
+      <div class="card-header">
+        <div class="avatar avatar-muted">EE</div>
+        <div class="card-name-block">
+          <div class="card-name">Elin Eve</div>
+          <div class="card-age">27 años · Arroyo Hondo</div>
+        </div>
+        <span class="badge badge-neutral">Considerar</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Posición</div><div class="info-value">Data Science</div></div>
+        <div class="info-item"><div class="info-label">Experiencia</div><div class="info-value">2 años</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Téc. Sup. + Maestría Miami</div></div>
+        <div class="info-item"><div class="info-label">Labora actualmente</div><div class="info-value"><span class="tag-working">Sí</span></div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-exc">Habla: Excelente</span>
+        <span class="lang-dot lang-bien">Lee: Bien</span>
+        <span class="lang-dot lang-reg">Escribe: Regular</span>
+      </div>
+      <div class="rec-box"><strong>Nota:</strong> Inglés muy fuerte (formación en Miami). Sólo 2 años de experiencia en DS — puede ser limitante. No reportó datos de herramientas técnicas en formulario — requiere profundizar en entrevista. Perfil interesante si el rol acepta nivel semi-senior.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== TI ===================== -->
+<div id="view-ti" class="view">
+  <div class="benchmark-banner">
+    <h4>Benchmark — Arquitecto TI / Ingeniero</h4>
+    <div class="bm-items">
+      <div class="bm-item"><strong>Arquitecto TI:</strong> RD$ 65,000 – 140,000</div>
+      <div class="bm-item"><strong>Especialista Seguridad:</strong> RD$ 120,000 – 140,000</div>
+    </div>
+  </div>
+
+  <div class="candidates-grid">
+
+    <!-- Zunilda -->
+    <div class="candidate-card card-good">
+      <div class="card-header">
+        <div class="avatar avatar-teal">ZG</div>
+        <div class="card-name-block">
+          <div class="card-name">Zunilda Guillén Rueda</div>
+          <div class="card-age">43 años · Los Mameyes</div>
+        </div>
+        <span class="badge badge-good">Recomendado</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Posición</div><div class="info-value">Arquitecto TI</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Maestría</div></div>
+        <div class="info-item"><div class="info-label">Exp. banco</div><div class="info-value">Sí</div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">10 días</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-reg">Habla: Regular</span>
+        <span class="lang-dot lang-bien">Lee: Bien</span>
+        <span class="lang-dot lang-bien">Escribe: Bien</span>
+      </div>
+      <div class="rec-box"><strong>Fortalezas:</strong> Maestría, experiencia bancaria, 3 dependientes (estabilidad). Inglés funcional. Disponibilidad en 10 días. El perfil más sólido para Arquitecto TI dado el background en sector financiero. Requiere confirmar proyectos de arquitectura específicos.</div>
+    </div>
+
+    <!-- Ran Shemer -->
+    <div class="candidate-card card-neutral">
+      <div class="card-header">
+        <div class="avatar avatar-muted">RS</div>
+        <div class="card-name-block">
+          <div class="card-name">Ran Shemer Ramirez</div>
+          <div class="card-age">37 años · La Esperilla</div>
+        </div>
+        <span class="badge badge-neutral">Considerar</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Posición</div><div class="info-value">Arq. TI / Data Analyst</div></div>
+        <div class="info-item"><div class="info-label">Experiencia</div><div class="info-value highlight">12 años</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Grado Ing. Sistemas</div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">Inmediata (desempleado)</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-exc">Habla: Excelente</span>
+        <span class="lang-dot lang-exc">Lee: Excelente</span>
+        <span class="lang-dot lang-exc">Escribe: Excelente</span>
+      </div>
+      <div class="skills-section">
+        <div class="skills-label">Dominio Técnico</div>
+        <div class="skill-row"><span class="skill-name">Python</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-bas" style="width:25%"></div></div><span class="skill-val">Básico</span></div>
+        <div class="skill-row"><span class="skill-name">Power BI</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-bas" style="width:25%"></div></div><span class="skill-val">Básico</span></div>
+        <div class="skill-row"><span class="skill-name">Excel Av.</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-exp" style="width:75%"></div></div><span class="skill-val">Avanzado</span></div>
+        <div class="skill-row"><span class="skill-name">SQL</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-bas" style="width:25%"></div></div><span class="skill-val">Básico</span></div>
+      </div>
+      <div class="rec-box"><strong>Nota:</strong> Inglés excelente y 12 años de experiencia en infraestructura IT (LAN/WAN, Windows/Linux, SolarWinds, Dynatrace). Sin Maestría. Las herramientas de datos son básicas — mejor perfil para Arquitecto/Administrador de Infraestructura que para roles analíticos. Solicita entrevistas remotas.</div>
+    </div>
+
+    <!-- Emmanuel -->
+    <div class="candidate-card card-neutral">
+      <div class="card-header">
+        <div class="avatar avatar-muted">EH</div>
+        <div class="card-name-block">
+          <div class="card-name">Emmanuel Henriquez Rosario</div>
+          <div class="card-age">43 años · Colinas Arroyo</div>
+        </div>
+        <span class="badge badge-neutral">Considerar</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Posición</div><div class="info-value">Especialista Seguridad</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Grado</div></div>
+        <div class="info-item"><div class="info-label">Exp. banco</div><div class="info-value">Sí</div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">Inmediata (remoto)</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-reg">Habla: Regular</span>
+        <span class="lang-dot lang-exc">Lee: Excelente</span>
+        <span class="lang-dot lang-reg">Escribe: Regular</span>
+      </div>
+      <div class="rec-box"><strong>Nota:</strong> Experiencia bancaria y Jeep propio. Solo Grado. Inglés oral limitado pero lectura excelente — importante para documentación técnica de seguridad. Solicita modalidad remota. Requiere confirmar certificaciones y proyectos de seguridad.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== OTROS ===================== -->
+<div id="view-otros" class="view">
+  <div class="benchmark-banner">
+    <h4>Benchmark — Otras Posiciones</h4>
+    <div class="bm-items">
+      <div class="bm-item"><strong>QA / Ing. Pruebas Senior:</strong> RD$ 85,000 – 100,000</div>
+      <div class="bm-item"><strong>Data Science:</strong> RD$ 100,000 – 120,000</div>
+    </div>
+  </div>
+
+  <div class="candidates-grid">
+
+    <!-- Lancelote QA -->
+    <div class="candidate-card card-good">
+      <div class="card-header">
+        <div class="avatar avatar-teal">LS</div>
+        <div class="card-name-block">
+          <div class="card-name">Lancelote Santos Rodriguez</div>
+          <div class="card-age">25 años · Vista Hermosa</div>
+        </div>
+        <span class="badge badge-good">Recomendado — QA</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Posición</div><div class="info-value">Ingeniero de Pruebas Senior</div></div>
+        <div class="info-item"><div class="info-label">Educación</div><div class="info-value">Téc. Sup. + Dipl. Ciencia Datos</div></div>
+        <div class="info-item"><div class="info-label">Labora actualmente</div><div class="info-value"><span class="tag-notworking">No</span></div></div>
+        <div class="info-item"><div class="info-label">Disponibilidad</div><div class="info-value">Inmediata</div></div>
+      </div>
+      <div class="lang-row">
+        <span class="lang-label">Inglés:</span>
+        <span class="lang-dot lang-reg">Habla: Regular</span>
+        <span class="lang-dot lang-bien">Lee: Bien</span>
+        <span class="lang-dot lang-bien">Escribe: Bien</span>
+      </div>
+      <div class="skills-section">
+        <div class="skills-label">Dominio Técnico</div>
+        <div class="skill-row"><span class="skill-name">Python</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-int" style="width:50%"></div></div><span class="skill-val">Intermedio</span></div>
+        <div class="skill-row"><span class="skill-name">Power BI</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-bas" style="width:25%"></div></div><span class="skill-val">Básico</span></div>
+        <div class="skill-row"><span class="skill-name">Excel Av.</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-int" style="width:50%"></div></div><span class="skill-val">Intermedio</span></div>
+        <div class="skill-row"><span class="skill-name">SQL</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-exp" style="width:75%"></div></div><span class="skill-val">Avanzado</span></div>
+        <div class="skill-row"><span class="skill-name">R</span><div class="skill-bar-bg"><div class="skill-bar-fill fill-bas" style="width:25%"></div></div><span class="skill-val">Básico</span></div>
+      </div>
+      <div class="rec-box"><strong>Fortalezas:</strong> SQL Avanzado, Python intermedio. Automatización de procesos en producción con Python, SQL Server, PostgreSQL y MySQL. +5 años con herramientas tecnológicas. Disponibilidad inmediata. Perfil técnico sólido para QA/Testing con datos.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== RECOMENDACIONES ===================== -->
+<div id="view-recomendaciones" class="view">
+  <div class="benchmark-banner">
+    <h4>Recomendaciones Ejecutivas</h4>
+    <div class="bm-items">
+      <div class="bm-item">Top picks por posición basados en: experiencia, educación, dominio técnico y ajuste salarial al benchmark</div>
+    </div>
+  </div>
+
+  <div class="rec-grid">
+
+    <div class="rec-card top-pick">
+      <div class="rec-rank">1°</div>
+      <div class="rec-pos-label">Ingeniero de Datos</div>
+      <div class="rec-name">Daniel Andres Cabrera Lopez</div>
+      <div class="rec-exp">8 años de experiencia · Maestría en Inteligencia Artificial · 29 años</div>
+      <div class="rec-section-label">Por qué recomendarlo</div>
+      <ul class="rec-pros">
+        <li>El candidato más completo del proceso: Experto en SQL, Power BI y Excel; Avanzado en Python y R</li>
+        <li>Maestría en IA con 8 años de experiencia práctica — combinación poco común en el mercado</li>
+        <li>Ha diseñado dashboards estadísticos, KPIs, proyecciones de revenue y profitability</li>
+        <li>Actitud orientada a optimización constante, alta capacidad de trabajo en equipo y bajo presión</li>
+        <li>LinkedIn activo y CV completo enviado</li>
+      </ul>
+      <div class="rec-section-label" style="margin-top:10px">Puntos a validar</div>
+      <ul class="rec-cons">
+        <li>Actualmente empleado — disponibilidad +10 días, preaviso confirmado</li>
+        <li>Inglés en nivel "Bien" — adecuado pero no excelente</li>
+      </ul>
+    </div>
+
+    <div class="rec-card top-pick">
+      <div class="rec-rank">2°</div>
+      <div class="rec-pos-label">Project Manager</div>
+      <div class="rec-name">Wilfredo Mateo Acosta</div>
+      <div class="rec-exp">12 años de experiencia · Maestría + Digital Project Cert. · 34 años</div>
+      <div class="rec-section-label">Por qué recomendarlo</div>
+      <ul class="rec-pros">
+        <li>12 años de experiencia en gestión de proyectos y análisis de datos</li>
+        <li>Power BI Avanzado, Excel Avanzado — maneja dashboards de KPIs y reportes ejecutivos</li>
+        <li>Certificación adicional en Digital Project Management — validación formal de competencias</li>
+        <li>Trabaja mejor bajo presión — actitud proactiva de mejora de procesos</li>
+        <li>Actualmente empleado — señal de estabilidad y demanda del mercado</li>
+      </ul>
+      <div class="rec-section-label" style="margin-top:10px">Puntos a validar</div>
+      <ul class="rec-cons">
+        <li>Inglés oral regular — puede ser limitante en entornos bilingües</li>
+        <li>Requiere preaviso razonable para transición adecuada</li>
+      </ul>
+    </div>
+
+    <div class="rec-card top-pick">
+      <div class="rec-rank">3°</div>
+      <div class="rec-pos-label">Project Manager (Alternativo)</div>
+      <div class="rec-name">Roberto Armando Castillo Sanabria</div>
+      <div class="rec-exp">Exp. por confirmar · Maestría · 34 años · Nacido en Argentina</div>
+      <div class="rec-section-label">Por qué recomendarlo</div>
+      <ul class="rec-pros">
+        <li>Inglés excelente en habla, lectura y escritura — diferenciador #1 entre los PM del proceso</li>
+        <li>Maestría, movilidad propia (Grand Santa Fe), disponibilidad en 1–2 semanas</li>
+        <li>Perfil posiblemente con exposición internacional (Argentina) — perspectiva diversa</li>
+        <li>Exp. bancaria previa (Sí) — contexto financiero relevante</li>
+      </ul>
+      <div class="rec-section-label" style="margin-top:10px">Puntos a validar</div>
+      <ul class="rec-cons">
+        <li>Años de experiencia no especificados — prioridad 1 en entrevista</li>
+        <li>No proveyó herramientas técnicas en formulario — validar stack en entrevista</li>
+      </ul>
+    </div>
+
+    <div class="rec-card top-pick">
+      <div class="rec-rank">4°</div>
+      <div class="rec-pos-label">Data Analyst</div>
+      <div class="rec-name">Yelsin Joel Terrero Amparo</div>
+      <div class="rec-exp">5 años de experiencia · Maestría en Ciencia de Datos · 30 años</div>
+      <div class="rec-section-label">Por qué recomendarlo</div>
+      <ul class="rec-pros">
+        <li>Maestría en Ciencia de Datos con 5 años de experiencia práctica como Analyst</li>
+        <li>Experto en Power BI, Excel y SQL — el trio core de cualquier Data Analyst senior</li>
+        <li>Especializado en creación de dashboards y reportería avanzada</li>
+        <li>Actualmente empleado — confirma valor de mercado actual</li>
+        <li>Alta capacidad de trabajo autónomo y en equipo</li>
+      </ul>
+      <div class="rec-section-label" style="margin-top:10px">Puntos a validar</div>
+      <ul class="rec-cons">
+        <li>Inglés regular — puede requerir refuerzo para documentación técnica en inglés</li>
+        <li>Python y R básicos — oportunidad de desarrollo si el rol lo requiere</li>
+      </ul>
+    </div>
+
+    <div class="rec-card">
+      <div class="rec-rank">5°</div>
+      <div class="rec-pos-label">Ingeniero de Datos (Alt.)</div>
+      <div class="rec-name">Jose Maria Valera Rodriguez</div>
+      <div class="rec-exp">5 años de experiencia · Maestría en Ciberseguridad · 31 años</div>
+      <div class="rec-section-label">Por qué recomendarlo</div>
+      <ul class="rec-pros">
+        <li>SQL Experto — habilidad core para Data Engineering</li>
+        <li>Experiencia con SSIS en SQL Server — herramienta de integración de datos enterprise</li>
+        <li>Maestría en Ciberseguridad añade perspectiva de data governance y seguridad</li>
+        <li>Actualmente empleado — perfil estable</li>
+      </ul>
+      <div class="rec-section-label" style="margin-top:10px">Puntos a validar</div>
+      <ul class="rec-cons">
+        <li>Python básico — gap importante para roles de Data Engineering modernos</li>
+        <li>Inglés regular en todas las dimensiones</li>
+        <li>Power BI intermedio — puede requerir formación adicional</li>
+      </ul>
+    </div>
+
+    <div class="rec-card">
+      <div class="rec-rank">6°</div>
+      <div class="rec-pos-label">Arquitecto TI</div>
+      <div class="rec-name">Zunilda Guillén Rueda</div>
+      <div class="rec-exp">43 años · Maestría · Experiencia bancaria confirmada</div>
+      <div class="rec-section-label">Por qué recomendarlo</div>
+      <ul class="rec-pros">
+        <li>Única candidata con Maestría y experiencia bancaria para el rol de Arquitecto TI</li>
+        <li>Disponibilidad en 10 días, sector bancario como contexto previo</li>
+        <li>Inglés funcional (lectura y escritura bien) — adecuado para documentación técnica</li>
+      </ul>
+      <div class="rec-section-label" style="margin-top:10px">Puntos a validar</div>
+      <ul class="rec-cons">
+        <li>No se reportaron años de experiencia ni herramientas técnicas específicas</li>
+        <li>Inglés oral regular — validar si el rol requiere comunicación verbal en inglés</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- end main -->
+
+<footer>
+  Reporte Ejecutivo de Candidatos · Elaborado por Talent BI · Confeccionado por eeve@talent-bi.com · Confidencial — Solo para uso del cliente
+</footer>
+
+<script>
+function switchTab(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
