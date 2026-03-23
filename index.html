@@ -7,16 +7,11 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif']}}}}</script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-* { font-family: 'Inter', sans-serif; }
-button { cursor: pointer; }
-.soft-bar { height: 6px; border-radius: 9999px; }
-</style>
+<style>* { font-family: 'Inter', sans-serif; } button { cursor: pointer; }</style>
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-900">
 <div id="app" class="p-4 md:p-8"></div>
 <script>
-// ── Benchmarks ──────────────────────────────────────────────────────────────
 const baseBM = {
   "Data Science":       { min:100000, max:120000, color:"bg-purple-100 text-purple-700" },
   "QA / Testing":       { min:85000,  max:100000, color:"bg-orange-100 text-orange-700" },
@@ -26,247 +21,196 @@ const baseBM = {
   "Project Management": { min:100000, max:300000, color:"bg-indigo-100 text-indigo-700" },
   "Seguridad TI":       { min:120000, max:140000, color:"bg-slate-100 text-slate-700" }
 };
-const plusBM = {};
-Object.entries(baseBM).forEach(([k,v])=>{ plusBM[k]={...v,min:v.min+50000,max:v.max+50000}; });
 
-// ── Soft skill label & color ─────────────────────────────────────────────────
-// Levels: 1=Básico 2=Moderado 3=Alto 4=Muy Alto
-function softLabel(v){ return v===4?'Muy Alta':v===3?'Alta':v===2?'Moderada':'Básica'; }
-function softColor(v){ return v===4?'bg-emerald-500':v===3?'bg-blue-500':v===2?'bg-yellow-400':'bg-slate-300'; }
-
-// exp display helper
-function expLabel(n){ return n>4?'+5 años exp.':n+' año'+(n===1?'':'s')+' exp.'; }
-
-// ── Candidates ───────────────────────────────────────────────────────────────
-// soft skills keys: equipo, comunicacion, estres, presion, adaptacion, resolucion
 const candidates = [
   {
     id:1, name:"Felipe Sanchez Jimenez", role:"Data Science", exp:2,
     edu:"Maestría en Miami", english:"Excelente", bankExp:"Sí",
     skills:{python:3,sql:2,bi:3,excel:2,r:2}, benchmark:"Data Science",
-    soft:{ equipo:3, comunicacion:3, estres:3, presion:3, adaptacion:3, resolucion:3 },
-    softNotes:{ resolucion:"Prueba diferentes enfoques", presion:"Maneja la presión adecuadamente", actitud:"Busca optimizar procesos" }
+    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Prueba diferentes enfoques",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
   },
   {
     id:2, name:"Lancelote Santos Rodriguez", role:"QA / Testing", exp:6,
     edu:"Diplomado Ciencia de Datos - Nivel Intermedio", english:"Regular", bankExp:"Sí",
     skills:{python:3,sql:4,bi:2,excel:3,r:2}, benchmark:"QA / Testing",
-    soft:{ equipo:3, comunicacion:4, estres:4, presion:4, adaptacion:4, resolucion:4 },
-    softNotes:{ resolucion:"Prueba diferentes enfoques hasta resolverlo", presion:"Maneja la presión adecuadamente", actitud:"Frecuentemente propone mejoras" }
+    soft:{equipo:3,comunicacion:4,estres:4,presion:4,adaptacion:4,resolucion:4},
+    softNotes:{resolucion:"Prueba diferentes enfoques hasta resolverlo",presion:"Maneja la presión adecuadamente",actitud:"Frecuentemente propone mejoras"}
   },
   {
     id:3, name:"Daniel Andres Cabrera Lopez", role:"Data Engineering", exp:8,
     edu:"Maestría en Inteligencia Artificial", english:"Bien", bankExp:"No",
     skills:{python:4,sql:5,bi:5,excel:5,r:4}, benchmark:"Data Engineering",
-    soft:{ equipo:4, comunicacion:4, estres:4, presion:4, adaptacion:4, resolucion:4 },
-    softNotes:{ resolucion:"Analiza el problema por su cuenta", presion:"Maneja la presión adecuadamente", actitud:"Constantemente busca optimizar procesos y aportar ideas" }
+    soft:{equipo:4,comunicacion:4,estres:4,presion:4,adaptacion:4,resolucion:4},
+    softNotes:{resolucion:"Analiza el problema por su cuenta",presion:"Maneja la presión adecuadamente",actitud:"Constantemente busca optimizar procesos y aportar ideas"}
   },
   {
     id:4, name:"Yelsin Joel Terrero Amparo", role:"Data Analysis / BI", exp:5,
     edu:"Maestría en Ciencia de Datos", english:"Regular", bankExp:"Sí",
     skills:{python:2,sql:5,bi:5,excel:5,r:2}, benchmark:"Data Analysis / BI",
-    soft:{ equipo:4, comunicacion:4, estres:3, presion:4, adaptacion:3, resolucion:4 },
-    softNotes:{ resolucion:"Analiza el problema por su cuenta", presion:"Maneja la presión adecuadamente", actitud:"Constantemente busca optimizar procesos y aportar ideas" }
+    soft:{equipo:4,comunicacion:4,estres:3,presion:4,adaptacion:3,resolucion:4},
+    softNotes:{resolucion:"Analiza el problema por su cuenta",presion:"Maneja la presión adecuadamente",actitud:"Constantemente busca optimizar procesos y aportar ideas"}
   },
   {
     id:5, name:"Ran Shemer Ramirez", role:"Arquitectura TI", exp:12,
     edu:"Ingeniero de Sistemas", english:"Excelente", bankExp:"Sí",
     skills:{python:2,sql:2,bi:2,excel:4,r:2}, benchmark:"Arquitectura TI",
-    soft:{ equipo:3, comunicacion:3, estres:3, presion:3, adaptacion:3, resolucion:3 },
-    softNotes:{ resolucion:"Investiga posibles soluciones", presion:"Maneja la presión adecuadamente", actitud:"Solo hace lo que se le indica" }
+    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Investiga posibles soluciones",presion:"Maneja la presión adecuadamente",actitud:"Solo hace lo que se le indica"}
   },
   {
     id:6, name:"Yanilka E. Garcia Amparo", role:"Project Management", exp:29,
     edu:"Maestría en Gerencia y Productividad", english:"Bien", bankExp:"Sí",
     skills:{python:2,sql:4,bi:2,excel:4,r:2}, benchmark:"Project Management",
-    soft:{ equipo:4, comunicacion:4, estres:4, presion:4, adaptacion:4, resolucion:4 },
-    softNotes:{ resolucion:"Prueba diferentes enfoques hasta resolverlo", presion:"Maneja la presión adecuadamente", actitud:"Constantemente busca optimizar procesos y aportar ideas" }
+    soft:{equipo:4,comunicacion:4,estres:4,presion:4,adaptacion:4,resolucion:4},
+    softNotes:{resolucion:"Prueba diferentes enfoques hasta resolverlo",presion:"Maneja la presión adecuadamente",actitud:"Constantemente busca optimizar procesos y aportar ideas"}
   },
   {
     id:7, name:"Jose Maria Valera Rodriguez", role:"Data Engineering", exp:5,
     edu:"Maestría en Ciberseguridad", english:"Bien", bankExp:"Sí",
     skills:{python:2,sql:5,bi:3,excel:3,r:2}, benchmark:"Data Engineering",
-    soft:{ equipo:3, comunicacion:3, estres:2, presion:3, adaptacion:3, resolucion:3 },
-    softNotes:{ resolucion:"Prueba diferentes enfoques hasta resolverlo", presion:"Mantiene la calma con dificultad", actitud:"Constantemente busca optimizar procesos y aportar ideas" }
+    soft:{equipo:3,comunicacion:3,estres:2,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Prueba diferentes enfoques hasta resolverlo",presion:"Mantiene la calma con dificultad",actitud:"Constantemente busca optimizar procesos y aportar ideas"}
   },
   {
     id:8, name:"Wilfredo Mateo Acosta", role:"Project Management", exp:12,
     edu:"Máster Ciberseguridad + Certificate Digital Project", english:"Bien", bankExp:"No",
     skills:{python:3,sql:3,bi:4,excel:4,r:4}, benchmark:"Project Management",
-    soft:{ equipo:4, comunicacion:3, estres:4, presion:4, adaptacion:3, resolucion:4 },
-    softNotes:{ resolucion:"Analiza el problema por su cuenta", presion:"Trabaja mejor bajo presión", actitud:"Constantemente busca optimizar procesos y aportar ideas" }
+    soft:{equipo:4,comunicacion:3,estres:4,presion:4,adaptacion:3,resolucion:4},
+    softNotes:{resolucion:"Analiza el problema por su cuenta",presion:"Trabaja mejor bajo presión",actitud:"Constantemente busca optimizar procesos y aportar ideas"}
   },
   {
     id:9, name:"Zunilda Guillen Rueda", role:"Arquitectura TI", exp:15,
     edu:"Maestría", english:"Regular", bankExp:"Sí",
     skills:{python:2,sql:3,bi:3,excel:4,r:2}, benchmark:"Arquitectura TI",
-    soft:{ equipo:3, comunicacion:3, estres:3, presion:3, adaptacion:3, resolucion:3 },
-    softNotes:{ resolucion:"Analiza el problema", presion:"Maneja la presión adecuadamente", actitud:"Busca optimizar procesos" }
+    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Analiza el problema",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
   },
   {
     id:10, name:"Orlando Rodriguez Ramirez", role:"Project Management", exp:10,
     edu:"Maestría", english:"Excelente", bankExp:"Sí",
     skills:{python:1,sql:3,bi:3,excel:5,r:1}, benchmark:"Project Management",
-    soft:{ equipo:4, comunicacion:4, estres:3, presion:3, adaptacion:4, resolucion:3 },
-    softNotes:{ resolucion:"Investiga posibles soluciones", presion:"Maneja la presión adecuadamente", actitud:"Busca optimizar procesos" }
+    soft:{equipo:4,comunicacion:4,estres:3,presion:3,adaptacion:4,resolucion:3},
+    softNotes:{resolucion:"Investiga posibles soluciones",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
   },
   {
     id:11, name:"Fausto Joel Arvelo Diaz", role:"Project Management", exp:7,
     edu:"Grado", english:"Regular", bankExp:"Sí",
     skills:{python:1,sql:2,bi:3,excel:4,r:1}, benchmark:"Project Management",
-    soft:{ equipo:3, comunicacion:3, estres:3, presion:3, adaptacion:3, resolucion:3 },
-    softNotes:{ resolucion:"Prueba diferentes enfoques", presion:"Maneja la presión adecuadamente", actitud:"Cumple con sus responsabilidades" }
+    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Prueba diferentes enfoques",presion:"Maneja la presión adecuadamente",actitud:"Cumple con sus responsabilidades"}
   },
   {
     id:12, name:"Raudy Ramon Garcia Rodriguez", role:"Data Analysis / BI", exp:4,
     edu:"Grado", english:"Excelente", bankExp:"Sí",
     skills:{python:3,sql:4,bi:4,excel:5,r:2}, benchmark:"Data Analysis / BI",
-    soft:{ equipo:3, comunicacion:3, estres:3, presion:3, adaptacion:3, resolucion:3 },
-    softNotes:{ resolucion:"Analiza el problema", presion:"Maneja la presión adecuadamente", actitud:"Busca mejorar procesos" }
+    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Analiza el problema",presion:"Maneja la presión adecuadamente",actitud:"Busca mejorar procesos"}
   },
   {
     id:13, name:"Ileana Mercedes Guzman", role:"Project Management", exp:6,
     edu:"Maestría", english:"Excelente", bankExp:"No",
     skills:{python:1,sql:2,bi:3,excel:4,r:1}, benchmark:"Project Management",
-    soft:{ equipo:3, comunicacion:4, estres:3, presion:3, adaptacion:3, resolucion:3 },
-    softNotes:{ resolucion:"Analiza el problema", presion:"Maneja la presión adecuadamente", actitud:"Busca optimizar procesos" }
+    soft:{equipo:3,comunicacion:4,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Analiza el problema",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
   },
   {
     id:14, name:"Edwin Penalo", role:"Data Engineering", exp:5,
     edu:"Grado", english:"Regular", bankExp:"No",
     skills:{python:4,sql:5,bi:3,excel:4,r:3}, benchmark:"Data Engineering",
-    soft:{ equipo:3, comunicacion:3, estres:3, presion:3, adaptacion:3, resolucion:3 },
-    softNotes:{ resolucion:"Investiga soluciones técnicas", presion:"Maneja la presión adecuadamente", actitud:"Busca mejorar procesos" }
+    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Investiga soluciones técnicas",presion:"Maneja la presión adecuadamente",actitud:"Busca mejorar procesos"}
   },
   {
     id:15, name:"Johanca Maria Santos Gonzalez", role:"Data Analysis / BI", exp:3,
     edu:"Técnico Superior", english:"Bien", bankExp:"Sí",
     skills:{python:2,sql:4,bi:5,excel:5,r:2}, benchmark:"Data Analysis / BI",
-    soft:{ equipo:3, comunicacion:3, estres:3, presion:3, adaptacion:3, resolucion:3 },
-    softNotes:{ resolucion:"Analiza el problema", presion:"Maneja la presión adecuadamente", actitud:"Busca optimizar procesos" }
+    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Analiza el problema",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
   },
   {
     id:16, name:"Emmanuel Henriquez Rosario", role:"Seguridad TI", exp:14,
     edu:"Grado", english:"Excelente", bankExp:"Sí",
     skills:{python:2,sql:3,bi:2,excel:4,r:1}, benchmark:"Seguridad TI",
-    soft:{ equipo:3, comunicacion:3, estres:3, presion:3, adaptacion:3, resolucion:3 },
-    softNotes:{ resolucion:"Investiga posibles soluciones", presion:"Maneja la presión adecuadamente", actitud:"Cumple con sus responsabilidades" }
+    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Investiga posibles soluciones",presion:"Maneja la presión adecuadamente",actitud:"Cumple con sus responsabilidades"}
   },
   {
     id:17, name:"Tomas De Jesus Mayol Valdez", role:"Data Engineering", exp:8,
     edu:"Maestría", english:"Regular", bankExp:"No",
     skills:{python:4,sql:5,bi:3,excel:3,r:3}, benchmark:"Data Engineering",
-    soft:{ equipo:3, comunicacion:3, estres:3, presion:3, adaptacion:3, resolucion:3 },
-    softNotes:{ resolucion:"Analiza el problema", presion:"Maneja la presión adecuadamente", actitud:"Busca optimizar procesos" }
+    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Analiza el problema",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
   },
   {
     id:18, name:"Roberto Armando Castillo", role:"Project Management", exp:11,
     edu:"Maestría", english:"Excelente", bankExp:"Sí",
     skills:{python:1,sql:3,bi:4,excel:5,r:2}, benchmark:"Project Management",
-    soft:{ equipo:4, comunicacion:4, estres:3, presion:4, adaptacion:4, resolucion:3 },
-    softNotes:{ resolucion:"Investiga posibles soluciones", presion:"Maneja la presión adecuadamente", actitud:"Busca optimizar procesos" }
+    soft:{equipo:4,comunicacion:4,estres:3,presion:4,adaptacion:4,resolucion:3},
+    softNotes:{resolucion:"Investiga posibles soluciones",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
   },
   {
     id:19, name:"Mirianny De La Cruz Ventura", role:"Data Analysis / BI", exp:2,
     edu:"Grado", english:"Bien", bankExp:"No",
     skills:{python:2,sql:4,bi:4,excel:4,r:2}, benchmark:"Data Analysis / BI",
-    soft:{ equipo:3, comunicacion:3, estres:3, presion:3, adaptacion:3, resolucion:3 },
-    softNotes:{ resolucion:"Analiza el problema", presion:"Maneja la presión adecuadamente", actitud:"Busca optimizar procesos" }
+    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Analiza el problema",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
   }
 ];
 
-// ── State ────────────────────────────────────────────────────────────────────
-let activeTab = 'base';
 let selectedRole = 'All';
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
 function skillLabel(v){ return v>=5?'Experto':v>=4?'Avanzado':v>=3?'Intermedio':'Básico'; }
+function softLabel(v){ return v===4?'Muy Alta':v===3?'Alta':v===2?'Moderada':'Básica'; }
+function softColor(v){ return v===4?'bg-emerald-500':v===3?'bg-blue-500':v===2?'bg-yellow-400':'bg-slate-300'; }
 function inits(n){ return n.split(' ').map(x=>x[0]).join('').substring(0,2); }
-function fmt(n){ return (n/1000)+'k'; }
-function getBM(){ return activeTab==='plus'?plusBM:baseBM; }
+function expLabel(n){ return n>4?'+5 años exp.':n+' año'+(n===1?'':'s')+' exp.'; }
 
-// ── Render benchmark bar ──────────────────────────────────────────────────────
-function renderBMBar(bm){
-  if(activeTab==='nosal') return '';
-  const isPlus = activeTab==='plus';
-  const cols = Object.entries(bm).map(([pos,v])=>`
-    <div class="p-4 ${selectedRole===pos?'bg-blue-50':''}">
-      <p class="text-[10px] text-slate-400 uppercase font-black mb-1 leading-tight">${pos}</p>
-      <p class="text-sm font-bold ${isPlus?'text-emerald-700':'text-slate-700'}">${fmt(v.min)} - ${fmt(v.max)}</p>
-      ${isPlus?'<p class="text-[9px] text-emerald-500 font-bold">+50K vs base</p>':''}
-    </div>`).join('');
-  return `<section class="mb-10 overflow-x-auto pb-4">
-    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden min-w-[900px] lg:min-w-full">
-      <div class="bg-slate-800 p-4 flex items-center gap-2 text-white">
-        <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-        <h2 class="font-semibold text-sm">${isPlus?'Benchmark Salarial +50K (DOP)':'Benchmark Salarial Mensual Sugerido (DOP)'}</h2>
-        ${isPlus?'<span class="ml-2 bg-emerald-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full">+RD$50,000</span>':''}
-      </div>
-      <div class="grid grid-cols-7 divide-x divide-slate-100">${cols}</div>
-    </div>
-  </section>`;
-}
-
-// ── Render soft skills block ──────────────────────────────────────────────────
 function renderSoft(c){
-  const softDefs = [
-    { key:'equipo',       label:'Trabajo en Equipo' },
-    { key:'comunicacion', label:'Comunicación' },
-    { key:'adaptacion',   label:'Adaptación' },
-    { key:'resolucion',   label:'Resolución' },
-    { key:'estres',       label:'Manejo de Estrés' },
-    { key:'presion',      label:'Alta Presión' }
+  const defs=[
+    {key:'equipo',label:'Trabajo en Equipo'},
+    {key:'comunicacion',label:'Comunicación'},
+    {key:'adaptacion',label:'Adaptación'},
+    {key:'resolucion',label:'Resolución'},
+    {key:'estres',label:'Manejo de Estrés'},
+    {key:'presion',label:'Alta Presión'}
   ];
-  const bars = softDefs.map(d=>{
-    const v = c.soft[d.key]||2;
-    const pct = (v/4)*100;
+  const bars = defs.map(d=>{
+    const v=c.soft[d.key]||2;
     return `
     <div class="flex flex-col">
       <span class="text-[9px] uppercase text-slate-400 font-black tracking-tighter mb-1">${d.label}</span>
       <div class="w-full bg-slate-200 rounded-full" style="height:5px">
-        <div class="${softColor(v)} rounded-full" style="height:5px;width:${pct}%"></div>
+        <div class="${softColor(v)} rounded-full" style="height:5px;width:${(v/4)*100}%"></div>
       </div>
       <span class="text-[9px] font-bold text-slate-500 text-right mt-0.5">${softLabel(v)}</span>
     </div>`;
   }).join('');
-
   return `
   <div class="bg-rose-50/40 rounded-2xl p-4 border border-rose-100 mt-4">
     <p class="text-[10px] text-rose-400 font-black uppercase tracking-wider mb-3">Habilidades Blandas</p>
     <div class="grid grid-cols-3 md:grid-cols-6 gap-3">${bars}</div>
-    ${c.softNotes?`
-    <div class="mt-3 grid grid-cols-1 md:grid-cols-3 gap-2">
-      <div class="text-[10px] text-slate-500"><span class="font-bold text-slate-700">Resolucion:</span> ${c.softNotes.resolucion||'-'}</div>
+    ${c.softNotes?`<div class="mt-3 grid grid-cols-1 md:grid-cols-3 gap-2">
+      <div class="text-[10px] text-slate-500"><span class="font-bold text-slate-700">Resolución:</span> ${c.softNotes.resolucion||'-'}</div>
       <div class="text-[10px] text-slate-500"><span class="font-bold text-slate-700">Bajo presión:</span> ${c.softNotes.presion||'-'}</div>
       <div class="text-[10px] text-slate-500"><span class="font-bold text-slate-700">Actitud:</span> ${c.softNotes.actitud||'-'}</div>
     </div>`:''}
   </div>`;
 }
 
-// ── Render cards ──────────────────────────────────────────────────────────────
-function renderCards(bm, showSal){
+function renderCards(){
   const list = selectedRole==='All'?candidates:candidates.filter(c=>c.benchmark===selectedRole);
   return list.map(c=>{
-    const b = bm[c.benchmark];
-    const isPlus = activeTab==='plus';
+    const b = baseBM[c.benchmark];
     const techBars = Object.entries(c.skills).map(([sk,v])=>`
       <div class="flex flex-col">
         <span class="text-[9px] uppercase text-slate-400 font-black tracking-tighter mb-1">${sk}</span>
         <div class="flex gap-0.5 mb-1">${[1,2,3,4,5].map(i=>`<div class="h-1.5 w-full rounded-full ${i<=v?'bg-blue-600':'bg-slate-200'}"></div>`).join('')}</div>
         <span class="text-[9px] font-bold text-slate-500 text-right">${skillLabel(v)}</span>
       </div>`).join('');
-
-    const salBlock = showSal?`
-      <div class="w-full md:w-auto bg-slate-50 rounded-2xl p-4 border border-slate-100 text-center">
-        <p class="text-[10px] text-slate-400 font-black uppercase mb-1 tracking-tighter">Benchmark Mercado</p>
-        <p class="text-xl font-black ${isPlus?'text-emerald-700':'text-slate-700'}">RD$ ${fmt(b.min)} - ${fmt(b.max)}</p>
-        ${isPlus?'<p class="text-[9px] text-emerald-500 font-bold">+50K aplicado</p>':''}
-      </div>`:'';
-
     return `
     <div class="bg-white rounded-3xl shadow-sm border border-slate-200 hover:border-blue-400 transition-all overflow-hidden group">
       <div class="p-6">
-        <!-- Header row -->
         <div class="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
           <div class="flex items-center gap-4">
             <div class="w-14 h-14 bg-slate-50 group-hover:bg-blue-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:text-blue-600 font-black text-xl border border-slate-100 transition-colors">${inits(c.name)}</div>
@@ -279,10 +223,7 @@ function renderCards(bm, showSal){
               </div>
             </div>
           </div>
-          ${salBlock}
         </div>
-
-        <!-- Tech skills + info -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
           <div class="space-y-3">
             <div class="flex items-start gap-3">
@@ -305,17 +246,14 @@ function renderCards(bm, showSal){
             <div class="grid grid-cols-5 gap-4">${techBars}</div>
           </div>
         </div>
-
-        <!-- Soft skills -->
         ${renderSoft(c)}
       </div>
     </div>`;
   }).join('');
 }
 
-// ── Render sidebar ────────────────────────────────────────────────────────────
-function renderSidebar(bm){
-  const btns = Object.keys(bm).map(r=>`
+function renderSidebar(){
+  const btns = Object.keys(baseBM).map(r=>`
     <button onclick="setRole('${r}')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${selectedRole===r?'bg-blue-600 text-white shadow-lg shadow-blue-200':'hover:bg-slate-100 text-slate-600'}">${r}</button>`).join('');
   return `<aside class="lg:col-span-1">
     <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 sticky top-8">
@@ -328,26 +266,10 @@ function renderSidebar(bm){
   </aside>`;
 }
 
-// ── Full render ───────────────────────────────────────────────────────────────
 function render(){
-  const bm = getBM();
-  const showSal = activeTab!=='nosal';
-  const tabs = [
-    {id:'base',  label:'Benchmark Base',     sub:'Salarios estándar de mercado',  cls:'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-200'},
-    {id:'plus',  label:'Benchmark +50K',     sub:'Ajuste competitivo +RD$50,000', cls:'bg-emerald-600 border-emerald-600 text-white shadow-lg'},
-    {id:'nosal', label:'Vista sin Salarios', sub:'Solo perfil y habilidades',     cls:'bg-slate-700 border-slate-700 text-white shadow-lg'}
-  ];
-  const tabBtns = tabs.map(t=>`
-    <button onclick="setTab('${t.id}')" class="flex flex-col items-start px-6 py-3.5 rounded-2xl text-sm font-bold transition-all border-2 ${activeTab===t.id?t.cls:'bg-white border-slate-200 text-slate-600 hover:border-blue-300 hover:text-blue-600'}">
-      <span>${t.label}</span>
-      <span class="text-[10px] font-normal opacity-75 mt-0.5">${t.sub}</span>
-    </button>`).join('');
-
   document.getElementById('app').innerHTML=`
   <div class="max-w-7xl mx-auto">
-
-    <!-- Header -->
-    <header class="mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
+    <header class="mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
       <div>
         <h1 class="text-3xl font-bold text-slate-800 tracking-tight">Análisis de Selección IT</h1>
         <p class="text-slate-500 mt-1 uppercase text-xs font-bold tracking-widest">Consolidado de Talentos por Perfil de Mercado</p>
@@ -357,20 +279,10 @@ function render(){
         <span class="font-bold text-slate-700">${candidates.length} Postulantes</span>
       </div>
     </header>
-
-    <!-- Tabs -->
-    <div class="flex flex-wrap gap-3 mb-8">${tabBtns}</div>
-
-    <!-- Benchmark bar -->
-    ${renderBMBar(bm)}
-
-    <!-- Main grid -->
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-      ${renderSidebar(bm)}
-      <main class="lg:col-span-3 space-y-4">${renderCards(bm,showSal)}</main>
+      ${renderSidebar()}
+      <main class="lg:col-span-3 space-y-4">${renderCards()}</main>
     </div>
-
-    <!-- Recommendations -->
     <section class="mt-16 mb-10">
       <div class="bg-white rounded-[2rem] p-8 md:p-12 border border-slate-200 shadow-xl shadow-slate-200/50">
         <div class="flex items-center gap-3 mb-8">
@@ -402,12 +314,10 @@ function render(){
         </div>
       </div>
     </section>
-
     <footer class="text-center text-xs text-slate-400 pb-6">Reporte Ejecutivo · Talent BI · eeve@talent-bi.com · Confidencial</footer>
   </div>`;
 }
 
-function setTab(t){ activeTab=t; render(); }
 function setRole(r){ selectedRole=r; render(); }
 render();
 </script>
