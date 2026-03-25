@@ -24,25 +24,11 @@ const baseBM = {
 
 const candidates = [
   {
-    id:5, name:"Ran Shemer Ramirez", role:"Arquitectura TI", exp:12,
-    edu:"Ingeniero de Sistemas", english:"Excelente", bankExp:"Sí",
-    skills:{python:2,sql:2,bi:2,excel:4,r:2}, benchmark:"Arquitectura TI",
+    id:1, name:"Felipe Sanchez Jimenez", role:"Data Science", exp:2,
+    edu:"Maestría en Miami", english:"Excelente", bankExp:"Sí",
+    skills:{python:3,sql:2,bi:3,excel:2,r:2}, benchmark:"Data Science",
     soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
-    softNotes:{resolucion:"Investiga posibles soluciones",presion:"Maneja la presión adecuadamente",actitud:"Solo hace lo que se le indica"}
-  },
-  {
-    id:12, name:"Raudy Ramon Garcia Rodriguez", role:"Data Analysis / BI", exp:4,
-    edu:"Grado", english:"Excelente", bankExp:"Sí",
-    skills:{python:3,sql:4,bi:4,excel:5,r:2}, benchmark:"Data Analysis / BI",
-    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
-    softNotes:{resolucion:"Analiza el problema",presion:"Maneja la presión adecuadamente",actitud:"Busca mejorar procesos"}
-  },
-  {
-    id:15, name:"Johanca Maria Santos Gonzalez", role:"Data Analysis / BI", exp:3,
-    edu:"Técnico Superior", english:"Bien", bankExp:"Sí",
-    skills:{python:2,sql:4,bi:5,excel:5,r:2}, benchmark:"Data Analysis / BI",
-    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
-    softNotes:{resolucion:"Analiza el problema",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
+    softNotes:{resolucion:"Prueba diferentes enfoques",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
   },
   {
     id:2, name:"Lancelote Santos Rodriguez", role:"QA / Testing", exp:6,
@@ -66,18 +52,11 @@ const candidates = [
     softNotes:{resolucion:"Analiza el problema por su cuenta",presion:"Maneja la presión adecuadamente",actitud:"Constantemente busca optimizar procesos y aportar ideas"}
   },
   {
-    id:16, name:"Emmanuel Henriquez Rosario", role:"Seguridad TI", exp:14,
-    edu:"Grado", english:"Excelente", bankExp:"Sí",
-    skills:{python:2,sql:3,bi:2,excel:4,r:1}, benchmark:"Seguridad TI",
+    id:5, name:"Ran Shemer Ramirez", role:"Arquitectura TI", exp:12,
+    edu:"Ingeniero de Sistemas", english:"Excelente", bankExp:"Sí",
+    skills:{python:2,sql:2,bi:2,excel:4,r:2}, benchmark:"Arquitectura TI",
     soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
-    softNotes:{resolucion:"Investiga posibles soluciones",presion:"Maneja la presión adecuadamente",actitud:"Cumple con sus responsabilidades"}
-  },
-  {
-    id:8, name:"Wilfredo Mateo Acosta", role:"Project Management", exp:12,
-    edu:"Máster Ciberseguridad + Certificate Digital Project", english:"Bien", bankExp:"No",
-    skills:{python:3,sql:3,bi:4,excel:4,r:4}, benchmark:"Project Management",
-    soft:{equipo:4,comunicacion:3,estres:4,presion:4,adaptacion:3,resolucion:4},
-    softNotes:{resolucion:"Analiza el problema por su cuenta",presion:"Trabaja mejor bajo presión",actitud:"Constantemente busca optimizar procesos y aportar ideas"}
+    softNotes:{resolucion:"Investiga posibles soluciones",presion:"Maneja la presión adecuadamente",actitud:"Solo hace lo que se le indica"}
   },
   {
     id:6, name:"Yanilka E. Garcia Amparo", role:"Project Management", exp:29,
@@ -87,6 +66,20 @@ const candidates = [
     softNotes:{resolucion:"Prueba diferentes enfoques hasta resolverlo",presion:"Maneja la presión adecuadamente",actitud:"Constantemente busca optimizar procesos y aportar ideas"}
   },
   {
+    id:7, name:"Jose Maria Valera Rodriguez", role:"Data Engineering", exp:5,
+    edu:"Maestría en Ciberseguridad", english:"Bien", bankExp:"Sí",
+    skills:{python:2,sql:5,bi:3,excel:3,r:2}, benchmark:"Data Engineering",
+    soft:{equipo:3,comunicacion:3,estres:2,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Prueba diferentes enfoques hasta resolverlo",presion:"Mantiene la calma con dificultad",actitud:"Constantemente busca optimizar procesos y aportar ideas"}
+  },
+  {
+    id:8, name:"Wilfredo Mateo Acosta", role:"Project Management", exp:12,
+    edu:"Máster Ciberseguridad + Certificate Digital Project", english:"Bien", bankExp:"No",
+    skills:{python:3,sql:3,bi:4,excel:4,r:4}, benchmark:"Project Management",
+    soft:{equipo:4,comunicacion:3,estres:4,presion:4,adaptacion:3,resolucion:4},
+    softNotes:{resolucion:"Analiza el problema por su cuenta",presion:"Trabaja mejor bajo presión",actitud:"Constantemente busca optimizar procesos y aportar ideas"}
+  },
+  {
     id:9, name:"Zunilda Guillen Rueda", role:"Arquitectura TI", exp:15,
     edu:"Maestría", english:"Regular", bankExp:"Sí",
     skills:{python:2,sql:3,bi:3,excel:4,r:2}, benchmark:"Arquitectura TI",
@@ -94,18 +87,74 @@ const candidates = [
     softNotes:{resolucion:"Analiza el problema",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
   },
   {
+    id:10, name:"Orlando Rodriguez Ramirez", role:"Project Management", exp:10,
+    edu:"Maestría", english:"Excelente", bankExp:"Sí",
+    skills:{python:1,sql:3,bi:3,excel:5,r:1}, benchmark:"Project Management",
+    soft:{equipo:4,comunicacion:4,estres:3,presion:3,adaptacion:4,resolucion:3},
+    softNotes:{resolucion:"Investiga posibles soluciones",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
+  },
+  {
+    id:11, name:"Fausto Joel Arvelo Diaz", role:"Project Management", exp:7,
+    edu:"Grado", english:"Regular", bankExp:"Sí",
+    skills:{python:1,sql:2,bi:3,excel:4,r:1}, benchmark:"Project Management",
+    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Prueba diferentes enfoques",presion:"Maneja la presión adecuadamente",actitud:"Cumple con sus responsabilidades"}
+  },
+  {
+    id:12, name:"Raudy Ramon Garcia Rodriguez", role:"Data Analysis / BI", exp:4,
+    edu:"Grado", english:"Excelente", bankExp:"Sí",
+    skills:{python:3,sql:4,bi:4,excel:5,r:2}, benchmark:"Data Analysis / BI",
+    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Analiza el problema",presion:"Maneja la presión adecuadamente",actitud:"Busca mejorar procesos"}
+  },
+  {
+    id:13, name:"Ileana Mercedes Guzman", role:"Project Management", exp:6,
+    edu:"Maestría", english:"Excelente", bankExp:"No",
+    skills:{python:1,sql:2,bi:3,excel:4,r:1}, benchmark:"Project Management",
+    soft:{equipo:3,comunicacion:4,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Analiza el problema",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
+  },
+  {
+    id:14, name:"Edwin Penalo", role:"Data Engineering", exp:5,
+    edu:"Grado", english:"Regular", bankExp:"No",
+    skills:{python:4,sql:5,bi:3,excel:4,r:3}, benchmark:"Data Engineering",
+    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Investiga soluciones técnicas",presion:"Maneja la presión adecuadamente",actitud:"Busca mejorar procesos"}
+  },
+  {
+    id:15, name:"Johanca Maria Santos Gonzalez", role:"Data Analysis / BI", exp:3,
+    edu:"Técnico Superior", english:"Bien", bankExp:"Sí",
+    skills:{python:2,sql:4,bi:5,excel:5,r:2}, benchmark:"Data Analysis / BI",
+    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Analiza el problema",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
+  },
+  {
+    id:16, name:"Emmanuel Henriquez Rosario", role:"Seguridad TI", exp:14,
+    edu:"Grado", english:"Excelente", bankExp:"Sí",
+    skills:{python:2,sql:3,bi:2,excel:4,r:1}, benchmark:"Seguridad TI",
+    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Investiga posibles soluciones",presion:"Maneja la presión adecuadamente",actitud:"Cumple con sus responsabilidades"}
+  },
+  {
+    id:17, name:"Tomas De Jesus Mayol Valdez", role:"Data Engineering", exp:8,
+    edu:"Maestría", english:"Regular", bankExp:"No",
+    skills:{python:4,sql:5,bi:3,excel:3,r:3}, benchmark:"Data Engineering",
+    soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
+    softNotes:{resolucion:"Analiza el problema",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
+  },
+  {
+    id:18, name:"Roberto Armando Castillo", role:"Project Management", exp:11,
+    edu:"Maestría", english:"Excelente", bankExp:"Sí",
+    skills:{python:1,sql:3,bi:4,excel:5,r:2}, benchmark:"Project Management",
+    soft:{equipo:4,comunicacion:4,estres:3,presion:4,adaptacion:4,resolucion:3},
+    softNotes:{resolucion:"Investiga posibles soluciones",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
+  },
+  {
     id:19, name:"Mirianny De La Cruz Ventura", role:"Data Analysis / BI", exp:2,
     edu:"Grado", english:"Bien", bankExp:"No",
     skills:{python:2,sql:4,bi:4,excel:4,r:2}, benchmark:"Data Analysis / BI",
     soft:{equipo:3,comunicacion:3,estres:3,presion:3,adaptacion:3,resolucion:3},
     softNotes:{resolucion:"Analiza el problema",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
-  },
-  {
-    id:18, name:"Roberto Armando Castillo Sanabria", role:"Project Management", exp:11,
-    edu:"Maestría", english:"Excelente", bankExp:"Sí",
-    skills:{python:1,sql:3,bi:4,excel:5,r:2}, benchmark:"Project Management",
-    soft:{equipo:4,comunicacion:4,estres:3,presion:4,adaptacion:4,resolucion:3},
-    softNotes:{resolucion:"Investiga posibles soluciones",presion:"Maneja la presión adecuadamente",actitud:"Busca optimizar procesos"}
   }
 ];
 
@@ -203,11 +252,8 @@ function renderCards(){
   }).join('');
 }
 
-// Only show roles that exist among the 12 candidates
-const activeRoles = [...new Set(candidates.map(c=>c.benchmark))];
-
 function renderSidebar(){
-  const btns = activeRoles.map(r=>`
+  const btns = Object.keys(baseBM).map(r=>`
     <button onclick="setRole('${r}')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${selectedRole===r?'bg-blue-600 text-white shadow-lg shadow-blue-200':'hover:bg-slate-100 text-slate-600'}">${r}</button>`).join('');
   return `<aside class="lg:col-span-1">
     <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 sticky top-8">
@@ -248,27 +294,27 @@ function render(){
             <h3 class="font-black text-blue-900 uppercase text-sm tracking-widest mb-4">&#9889; Top Élite Técnica</h3>
             <ul class="space-y-4">
               <li class="text-sm"><strong class="text-blue-800 block">Daniel Cabrera (Ing. Datos)</strong>Nivel experto (5/5) en SQL, BI y Excel. El perfil técnico más fuerte de toda la base. Habilidades blandas Muy Alta en todas las dimensiones.</li>
-              <li class="text-sm"><strong class="text-blue-800 block">Yelsin Joel (Data Analyst)</strong>Experto en Power BI, Excel y SQL. Maestría en Ciencia de Datos con experiencia bancaria.</li>
+              <li class="text-sm"><strong class="text-blue-800 block">Tomas De Jesus (Ing. Datos)</strong>Maestría con alto dominio de Python y SQL. Ideal para pipelines complejos.</li>
             </ul>
           </div>
           <div class="bg-emerald-50/50 rounded-3xl p-6 border border-emerald-100">
             <h3 class="font-black text-emerald-900 uppercase text-sm tracking-widest mb-4">&#127974; Especialistas Bancarios</h3>
             <ul class="space-y-4">
-              <li class="text-sm"><strong class="text-emerald-800 block">Yanilka Garcia (PM)</strong>29 años de experiencia, Scrum Master certificada. Habilidades blandas Muy Alta en todas las categorías.</li>
-              <li class="text-sm"><strong class="text-emerald-800 block">Wilfredo Mateo (PM)</strong>+5 años liderando proyectos, Power BI y Excel Avanzado. Trabaja mejor bajo presión.</li>
+              <li class="text-sm"><strong class="text-emerald-800 block">Yelsin Joel (Data Analyst)</strong>Combo de Oro: Maestría en Ciencia de Datos, experto técnico y experiencia en banca dominicana. Muy Alta capacidad de equipo y comunicación.</li>
+              <li class="text-sm"><strong class="text-emerald-800 block">Yanilka Garcia (PM)</strong>5+ años de experiencia, Scrum Master certificada. Habilidades blandas Muy Alta en todas las categorías.</li>
             </ul>
           </div>
           <div class="bg-purple-50/50 rounded-3xl p-6 border border-purple-100">
             <h3 class="font-black text-purple-900 uppercase text-sm tracking-widest mb-4">&#9989; Oportunidades Inmediatas</h3>
             <ul class="space-y-4">
-              <li class="text-sm"><strong class="text-purple-800 block">Roberto Castillo (PM)</strong>Inglés excelente, Maestría, experiencia bancaria y disponibilidad en 1–2 semanas.</li>
-              <li class="text-sm"><strong class="text-purple-800 block">Emmanuel Henriquez (Seguridad)</strong>+5 años en seguridad, experiencia bancaria y disponibilidad remota inmediata.</li>
+              <li class="text-sm"><strong class="text-purple-800 block">Ran Shemer Ramirez (Arquitectura)</strong>+5 años de exp. en infraestructura IT, inglés excelente y disponibilidad inmediata.</li>
+              <li class="text-sm"><strong class="text-purple-800 block">Emmanuel Henriquez (Seguridad)</strong>Perfil senior (+5 años) en seguridad con disponibilidad remota inmediata y experiencia bancaria.</li>
             </ul>
           </div>
         </div>
       </div>
     </section>
-    <footer class="text-center text-xs text-slate-400 pb-6">Reporte Ejecutivo · Talent BI · eeve@talent-bi.com · Confidencial</footer>
+    <footer class="text-center text-xs text-slate-400 pb-6">Reporte Ejecutivo · Confidencial</footer>
   </div>`;
 }
 
